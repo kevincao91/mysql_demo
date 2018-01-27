@@ -2,6 +2,7 @@ import time
 import os
 from setting import CrawlerSettings
 from crawlerfordoubanmovie import CrawlerForDouBanMovies
+import crate_diagram as cd
 
 
 def initial_table(db, cursor):
@@ -67,6 +68,7 @@ def get_info_from_web_or_file(global_set, crawler_douban):
         write_html(global_set, html)
     return remark_data
 
+
 def main():
     #  设置参数 ========================================================================================================
     print('Function Start.')
@@ -120,7 +122,8 @@ def main():
     # 关闭数据库连接
     cursor.close()
     db.close()
-
+    # 画图
+    cd.main()
 
 if __name__ == '__main__':
     main()
