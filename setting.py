@@ -3,12 +3,13 @@ import pymysql
 
 class ShowSettings():
     # 配置程序所有的设置数据
-    def __init__(self):
+    def __init__(self, movie_title):
         #  初始化程序的设置
-
-        self.show_title = '无问东西影评分析'
-        self.show_subtitle = '评星分布情况'
-        self.save_path = ''
+        self.movie_title = movie_title
+        self.show_title = self.movie_title + ' 影评分析'
+        self.show_subtitle_1 = '评星人数分布情况'
+        self.show_subtitle_2 = '观影日期分布情况'
+        self.show_subtitle_3 = '影评词频分布情况'
 
         #  数据库设置
         #  打开数据库连接
@@ -17,11 +18,12 @@ class ShowSettings():
         # 使用cursor()方法获取操作游标
         self.cursor = self.db.cursor()
         #  缓存文件设置
-        self.cache_filename = '影评.txt'
-        self.root_dir_name = 'html_cache/'
-        self.save_path = ''
-
-        #
+        self.save_dir_name = movie_title + '/output_file/'
+        self.save_path_1 = self.save_dir_name + 'render_show_star_bar.html'
+        self.save_path_2 = self.save_dir_name + 'render_show_date_line.html'
+        self.save_path_3 = self.save_dir_name + 'render_show_word_cloud.html'
+        self.remark_filename = '影评缓存.txt'
+        #  评星计算参数设置
         self.star_num_list = []
         self.star_weight_list = []
         self.star_avg = 0
@@ -38,20 +40,23 @@ class CrawlerSettings():
         # 使用cursor()方法获取操作游标
         self.cursor = self.db.cursor()
         #  缓存文件设置
-        self.cache_filename = '影评.txt'
-        self.root_dir_name = 'html_cache/'
+        self.save_dir_name = 'html_cache/'
         self.save_path = ''
         #  cookies文件设置
         self.cookies_filename = 'cookies.txt'
         #  状态信息设置
         self.start_url = 'https://movie.douban.com/subject/6874741/comments?status=P'  # 无问东西短评
-        self.max_pag_number = 20
+        self.max_pag_number = 75
         self.now_pag_number = 0
         self.store_remark_number = 0
         self.total_remark_num = 0
         self.total_d_remark_num = 0
+        self.movie_title = ''
+
+    def get_dir_path(self):
+        #  计算缓存文件夹绝对路径
+        self.save_dir_name = self.movie_title + '/html_cache/'
 
     def get_save_path(self):
         #  计算缓存文件绝对路径
-        self.save_path = self.root_dir_name + str(self.now_pag_number) + '.html'
-
+        self.save_path = self.save_dir_name + str(self.now_pag_number) + '.html'

@@ -82,3 +82,14 @@ class CrawlerForDouBanMovies():
             return html, remark_data
         else:
             return None
+
+    def get_movie_title(self):
+        if self.target_url:
+            html = self.download_page()
+            soup = BeautifulSoup(html)
+            #  查找页面中所有h1的内容
+            comments_soup = soup.find('h1')
+            title = comments_soup.text[:-3]
+            return title
+        else:
+            return None
