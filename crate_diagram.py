@@ -6,6 +6,7 @@ from pyecharts import WordCloud
 import jieba.analyse
 import time
 import os
+import webbrowser
 
 
 def show_star(global_set):
@@ -20,9 +21,9 @@ def show_star(global_set):
         db.rollback()
     stars_data = cursor.fetchall()
     #  获取各星级评价人数
-    star_num_list = []
+    star_num_list = [0, 0, 0, 0, 0, 0]
     for key_name, key_value in stars_data:
-        star_num_list.append(key_value)
+        star_num_list[5 - int(key_name)] = int(key_value)
     print(star_num_list)
     global_set.star_num_list = star_num_list
     #  计算评星有效加权平均值
@@ -116,6 +117,13 @@ def create_diagram(global_set):
     show_word(global_set)
 
 
+def show_diagram(global_set):
+    webbrowser.open_new_tab(os.path.realpath(global_set.save_path_1))
+    webbrowser.open_new_tab(os.path.realpath(global_set.save_path_2))
+    webbrowser.open_new_tab(os.path.realpath(global_set.save_path_3))
+    print(webbrowser.get())
+
+
 def main(movie_title):
     #  设置参数 ========================================================================================================
     print('Step 2: Show Result Function Start.')
@@ -134,6 +142,8 @@ def main(movie_title):
     db.close()
     end_time = time.time()
     print('Step 2: Show Result Function Finished! in ' + str(end_time - start_time) + 's')
+    #  显示图表
+    show_diagram(global_set)
 
 
 if __name__ == '__main__':

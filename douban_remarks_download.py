@@ -3,6 +3,7 @@ import os
 from setting import CrawlerSettings
 from crawlerfordoubanmovie import CrawlerForDouBanMovies
 import crate_diagram as cd
+from tkinter import *
 
 
 def initial_table(db, cursor):
@@ -48,7 +49,6 @@ def write_database(db, cursor, data):
 
 
 def write_html(global_set, html):
-    global_set.save_path = global_set.root_dir_name + str(global_set.now_pag_number) + '.html'
     with open(global_set.save_path, 'wb') as file_object:
         try:
             file_object.write(html)
@@ -77,11 +77,12 @@ def get_info_from_web_or_file(global_set, crawler_douban):
     return remark_data
 
 
-def main():
+def main(target_url):
     #  设置参数 ========================================================================================================
+    print(target_url)
     print('Step 1: Scan Function Start.')
     global_set = CrawlerSettings()
-    target_url = global_set.start_url
+    global_set.start_url = target_url
     db = global_set.db
     cursor = global_set.cursor
     #  初始化数据表
@@ -92,6 +93,9 @@ def main():
     #  获取标题
     global_set.movie_title = crawler_douban.get_movie_title()
     #  初始创建缓存文件夹
+    global_set.get_root_path()
+    if not os.path.exists(global_set.save_root_path):
+        os.mkdir(global_set.save_root_path)
     global_set.get_dir_path()
     if not os.path.exists(global_set.save_dir_name):
         os.mkdir(global_set.save_dir_name)

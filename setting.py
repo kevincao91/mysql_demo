@@ -40,22 +40,27 @@ class CrawlerSettings():
         # 使用cursor()方法获取操作游标
         self.cursor = self.db.cursor()
         #  缓存文件设置
-        self.save_dir_name = 'html_cache/'
+        self.save_root_path = ''
+        self.save_dir_name = ''
         self.save_path = ''
         #  cookies文件设置
         self.cookies_filename = 'cookies.txt'
         #  状态信息设置
-        self.start_url = 'https://movie.douban.com/subject/6874741/comments?status=P'  # 无问东西短评
-        self.max_pag_number = 75
+        self.start_url = 'https://movie.douban.com/subject/26004132/comments?status=P'  # 移动迷宫短评  热门
+        self.max_pag_number = 30
         self.now_pag_number = 0
         self.store_remark_number = 0
         self.total_remark_num = 0
         self.total_d_remark_num = 0
         self.movie_title = ''
 
+    def get_root_path(self):
+        #  计算缓存文件夹绝对路径
+        self.save_root_path = self.movie_title + '/'
+
     def get_dir_path(self):
         #  计算缓存文件夹绝对路径
-        self.save_dir_name = self.movie_title + '/html_cache/'
+        self.save_dir_name = self.save_root_path + 'html_cache/'
 
     def get_save_path(self):
         #  计算缓存文件绝对路径
